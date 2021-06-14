@@ -1,5 +1,6 @@
 #include "lists.h"
 
+List* head = NULL;
 /*
         OPERATIONS
         ---------
@@ -23,9 +24,9 @@ void display(List* list){
         puts("Empty List");
     }
     else{
-        printf("%d->",list->node);//print the first node in the list
-        while((list = list->next) != NULL){
+        while(list!= NULL){
             printf("%d->",list->node);
+            list = list->next;
         }
     }
 }
@@ -73,11 +74,14 @@ List* insert_end(List *list,int val){
 
 //insert node before a given node
 List* insert_bef(List *list,int val,unsigned int pos){
-    List *element,*prevP,*nextP,*temp;
+    List *element,*prevP,*nextP;
+
+    element = (List*)malloc(sizeof(List));
+    element ->node = val;
 
     if(list == NULL){
         list = element;
-        list ->next = NULL;
+        element ->next = NULL;
     }
 
     else
@@ -85,25 +89,48 @@ List* insert_bef(List *list,int val,unsigned int pos){
         prevP = list;
         nextP = prevP->next;
 
-        while(nextP ->next != NULL && nextP->node != pos){
+        //check if the insertion point is the first node in the list
+        if(prevP ->node == pos){
+            element ->next = prevP;//element points to the first node of the list
+            prevP = element;//prevP points to the newly inserted element/node
+            nextP = prevP->next;//nextP points to the second node in the list after insertion
+            list = prevP;//make list point back to the beginning of the list
+        }
+        while(nextP!= NULL && nextP ->node != pos){
             prevP = nextP;
             nextP = nextP->next;
         }
-
-        prevP ->next = element;
-        element ->next = nextP;
+        prevP ->next  = element;
+        element->next = nextP;
         prevP = element;
-        nextP = nextP ->next;
+           //debuging reasons only
+        printf(("\
+        prevP[%p][%d]  \
+        prevP->next[%p] \
+        element[%p][%d]  \
+        element->next[%p] \
+        nextP[%p][%d] \
+        nextP->next[%p] \n\
+        "),prevP,
+        prevP->node,
+        prevP->next,
+        element,element->node
+        ,element->next,nextP,nextP->node,nextP->next);
     }
     return list;
 }
- void singly_linked_list_option(List* head){
+ int main (void){
      unsigned short opt;
      unsigned int pos;
     int val;
 
     do{
-        puts("\n0: Display\n1: Insert_bed\n2: Insert_end\n3: Insert Before\n");
+        fputs(("\
+        0: Display \n\
+        1: Insert Beginning \n\
+        2: Insert End \n\
+        3: Insert Before a given node\n\
+        "),stdout);
         scanf("%hu",&opt);
 
         switch(opt){
