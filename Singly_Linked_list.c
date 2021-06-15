@@ -199,13 +199,53 @@ List* delete_node(List* list,int val){
         return list;
     }
 }
+//size of the list
+unsigned int size(List* list){
+
+    if(list == NULL){
+        return 0;
+    }
+    else{
+        unsigned int count = 0;
+
+        while(list != NULL){
+            count++;
+            list = list ->next;
+        }
+        return count;
+    }
+}
+//find node in the list
+bool find(List* list,int val){
+    List *ptr;
+    bool b;
+
+    if(list == NULL){
+        b = false;
+        return b;
+    }
+    else{
+        while(list != NULL && list->next != NULL && list->node != val) list = list->next;
+        //we reach the end of the list without findind the node we are looking fore
+        if(list ->next == NULL && list->node != val) b = false;
+        //the node found
+        else b = true;
+        return b;
+    }
+
+}
+//sort list in Ascending order /Mergersort Algorithms
+List *sort_asc(List* list){
+    return list;
+}
  int main (void){
      unsigned short opt;
      unsigned int pos;
     int val;
+    bool b;
 
     do{
-        fputs(("\
+        fputs(("\n\
         0: Display \n\
         1: Insert Beginning \n\
         2: Insert End \n\
@@ -213,6 +253,8 @@ List* delete_node(List* list,int val){
         4: Insert After a given node\n\
         5: Clear \n\
         6: Delete node\n\
+        7: size \n\
+        8: find node \n\
         "),stdout);
         scanf("%hu",&opt);
 
@@ -259,6 +301,16 @@ List* delete_node(List* list,int val){
             scanf("%d",&val);
             head = delete_node(head,val);
             break;
+
+            case 7:
+            printf("Size of List: %d",size(head));
+            break;
+
+            case 8:
+            puts("Enter value");
+            scanf("%d",&val);
+            (find(head,val) == 1)? puts("True"):puts("false");
+            break;
         }
-    }while(opt >=0 && opt <7);
+    }while(opt >=0 && opt < 9);
 }
