@@ -163,6 +163,52 @@ List* insert_aft(List* list,int val,unsigned int pos){
         return list;
     }
 }
+
+//error it return garbage values
+//clear list/delete all the elements/node in the list
+List *clear(List* list){
+
+    List *temp,*p;
+    if(list == NULL)return list;
+
+    else{
+        p = list;
+        while(p->next != list){
+            temp = p;
+            free(temp);
+            p = p->next;
+        }
+        free(p);
+        return list;
+    }
+}
+//failing to delete the first node from the list
+//delete a given node from the list
+List *delete_node(List* list,int val){
+    List *ptr,*prevP,*temp;
+
+    if(list == NULL) return list;
+
+    else{
+
+        ptr = list;
+        prevP = ptr;
+        while(ptr->node != val && ptr->next != list){
+            prevP = ptr;
+            ptr = ptr->next;
+        }
+        //we reached at the end of the list without finding out value
+        if(ptr->next == list && ptr->node != val)puts("No value found");
+        //value found
+        else{
+            temp = ptr;
+            ptr = ptr->next;
+            prevP->next = ptr;
+            free(temp);
+        }
+        return list;
+    }
+}
  int main (void){
      unsigned short opt;
      unsigned int pos;
@@ -218,13 +264,13 @@ List* insert_aft(List* list,int val,unsigned int pos){
             break;
 
             case 5:
-            // head = clear(head);
+             head = clear(head);
             break;
 
             case 6:
-            // puts("Enter node to delete");
-            // scanf("%d",&val);
-            // head = delete_node(head,val);
+            puts("Enter node to delete");
+            scanf("%d",&val);
+            head = delete_node(head,val);
             break;
 
             case 7:
