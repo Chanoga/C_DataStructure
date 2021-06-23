@@ -209,6 +209,21 @@ List *delete_node(List* list,int val){
         return list;
     }
 }
+
+//return the size of the list
+unsigned int size(List* list){
+
+    if(list == NULL)return 0;
+    else{
+        List *p = list;
+        unsigned int counter = 1;//there is always a value
+        while(p->next != list){
+            counter++;
+            p = p->next;
+        }
+        return counter;
+    }
+}
  int main (void){
      unsigned short opt;
      unsigned int pos;
@@ -274,7 +289,7 @@ List *delete_node(List* list,int val){
             break;
 
             case 7:
-            // printf("Size of List: %d",size(head));
+            printf("Size of List: %d",size(head));
             break;
 
             case 8:
