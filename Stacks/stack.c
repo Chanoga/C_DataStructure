@@ -1,5 +1,10 @@
-//The following is an implementation of the stack data structure in C
-//language using both array and linked list
+/**
+ *      STACK
+ *      -----
+ * Definition:
+ * A stack is a linear data structure which stores elements in an ordered manner,with the
+ * first element to be inserted will be the last one to be removed from the stack.
+ */
 /**
  *  OPERATIONS
  * ----------
@@ -10,6 +15,7 @@
  */
 #include<stdio.h>
 extern void linked_list_implementation(void);
+extern void array_implementation(void);
 
 int main(int argc, char const *argv[])
 {
@@ -25,11 +31,11 @@ int main(int argc, char const *argv[])
         switch(opt){
 
             case 1:
-            //array_implementation();
+            array_implementation();
             break;
 
             case 2:
-            linked_list_implementation();
+           linked_list_implementation();
             break;
         }
     }while(opt > 0 && opt < 3);

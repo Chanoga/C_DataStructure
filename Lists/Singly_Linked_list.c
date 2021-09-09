@@ -5,18 +5,18 @@ List* head = NULL;
         OPERATIONS
         ---------
 
-        ->Insert node at the beginning of the list
-        ->Inser node at the end of the list
-        ->Insert node before a given node
-        ->Insert node after the given node
+        ->Insert node at the beginning of the list(done)
+        ->Inser node at the end of the list(node)
+        ->Insert node before a given node(done)
+        ->Insert node after the given node(done)
         ->Delete any node
-        ->Sort list in Ascending order
-        ->Sort list in Descending order
-        ->Size of the list
-        ->find the biggest node in the list
-        ->Find the smallest node in the list
-        ->Find node in the list
-        ->clear list/delete entire list
+        ->Sort list in Ascending order(done)
+        ->Sort list in Descending order(done)
+        ->Size of the list(done)
+        ->find the biggest node in the list(done)
+        ->Find the smallest node in the list(done)
+        ->Find node in the list(done)
+        ->clear list/delete entire list(done)
 */
 //display list nodes
 void display(List* list){
@@ -28,6 +28,50 @@ void display(List* list){
             printf("%d->",list->node);
             list = list->next;
         }
+    }
+}
+//find the biggest/largest node int he list
+int largest_node(List* list)
+{
+    if(list == NULL) return 0;
+
+    else
+    {
+        int big_node;
+        List *ptr;
+
+        ptr = list;
+
+        big_node = ptr->node;//assuming the first node in the list is the biggest
+
+        while(ptr != NULL)
+        {
+            big_node = (ptr->node >= big_node) ? ptr->node : big_node;
+            ptr = ptr->next;   
+        }
+        return big_node;
+    }
+}
+//find the smallest node in the list
+int smallest_node(List* list)
+{
+    if(list == NULL) return 0;
+
+    else
+    {
+        int small_node;
+        List *ptr;
+
+        ptr = list;
+
+        small_node = ptr->node;//assuming the first node in the list is the biggest
+
+        while(ptr != NULL)
+        {
+            small_node = (ptr->node <= small_node) ? ptr->node : small_node;
+            ptr = ptr->next;   
+        }
+        return small_node;
     }
 }
 //insert node at the begginind of the list
@@ -234,9 +278,58 @@ bool find(List* list,int val){
     }
 
 }
-//sort list in Ascending order /Mergersort Algorithms
+//sort list in Ascending order /selection sort Algorithms
+void swap(int* i,int *j)
+{
+    int temp = *i;
+    *i = *j;
+    *j = temp;
+}
 List *sort_asc(List* list){
-    return list;
+
+    if(list == NULL)return NULL;
+
+    else
+    {
+        int *smallestIndex;//pointer to the smallest value in the list
+
+        for(List* ptr = list; ptr != NULL; ptr = ptr->next)
+        {
+            smallestIndex = &ptr->node;
+
+            for(List* next_ptr = ptr->next;next_ptr != NULL;next_ptr = next_ptr->next)
+                if(next_ptr->node <= *smallestIndex)
+                    smallestIndex = &next_ptr->node;
+                
+            
+            swap(&ptr->node,smallestIndex);
+        }
+        return list;
+    }
+}
+
+//sort list in descending order
+List* sort_desc(List* list)
+{
+     if(list == NULL)return NULL;
+
+    else
+    {
+        int *smallestIndex;//pointer to the smallest value in the list
+
+        for(List* ptr = list; ptr != NULL; ptr = ptr->next)
+        {
+            smallestIndex = &ptr->node;
+
+            for(List* next_ptr = ptr->next;next_ptr != NULL;next_ptr = next_ptr->next)
+                if(next_ptr->node >= *smallestIndex)
+                    smallestIndex = &next_ptr->node;
+                
+            
+            swap(&ptr->node,smallestIndex);
+        }
+        return list;
+    }
 }
  int main (void){
      unsigned short opt;
@@ -255,6 +348,10 @@ List *sort_asc(List* list){
         6: Delete node\n\
         7: size \n\
         8: find node \n\
+        9: Sort Ascending Order \n\
+        10: Sort Descending Order \n\
+        11: Find Largest Node \n\
+        12: Find Smallest Node \n\
         "),stdout);
         scanf("%hu",&opt);
 
@@ -311,6 +408,22 @@ List *sort_asc(List* list){
             scanf("%d",&val);
             (find(head,val) == 1)? puts("True"):puts("false");
             break;
+
+            case 9:
+            head = sort_asc(head);
+            break;
+
+            case 10:
+            head = sort_desc(head);
+            break;
+
+            case 11:
+            printf("Largest Node: %d\n",largest_node(head));
+            break;
+
+            case 12:
+            printf("Smallest Node: %d\n",smallest_node(head));
+            break;
         }
-    }while(opt >=0 && opt < 9);
+    }while(opt >=0 && opt < 13);
 }
