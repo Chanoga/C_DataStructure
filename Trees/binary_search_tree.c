@@ -1,85 +1,105 @@
-/* Implementation of the binary search tree in C */
+/**
+ * Implementation of the Binary Search Tree:
+ * 
+ * Operations:
+ * 
+ * -->Insert node 
+ * -->Pre-Order Traversing
+ * -->In-Order Traversing
+ * -->Post-Order Traversing
+ * -->Mirror Tree
+ * -->Find the largest Node
+ * -->Find the smallest Node
+ * -->Find if a given node is in the tree
+ * -->Delete an entire tree
+ * -->Delete leaf node
+ * -->Delete a node with only one child
+ * -->Delete a Node with children
+ */
+
 #include<stdio.h>
 #include<malloc.h>
+#include<stdlib.h>
+#include<string.h>
 
-/*
-  Operations
-  ----------
-  -->Insert node
-  -->Post Iterating
-  -->Pre order Iterating
-  -->In Order iterating
-  -->deleting leaf node
-  -->deleting node with Two children
-  -->deleting node with only one child
-  -->deleting root node
-*/
+typedef struct BinarySearchTree{
+    
+    struct Node
+    {
+        int age;
+        char fname[30];
+        char lname[30];
+    }node;
 
-//structure for holding up data/nodes
-typedef struct BinarySearchTree
-{
-    int node;
-    struct BinarySearchTree *left,*right;//pointers to the left and right of the tree
+    struct BinarySearchTree *left,*right;
+
 }Tree;
 
-Tree *root = NULL;//assuming the tree is empty at the time of it's creation
+Tree *root = NULL;
 
-//traversing the tree
-void pre_order_traversing(Tree *tree)
+void pre_order(Tree *tree)
 {
     if(tree == NULL) return;
 
-    else
-    {
-        printf("%d->",tree->node);
-        pre_order_traversing(tree->left);
-        pre_order_traversing(tree->right);
+    else{
+        printf(("\t \
+        %s \t |\
+        %s \t |\
+        %d \t |\n\
+        "),tree->node.fname,tree->node.lname,tree->node.age);
+        pre_order(tree->left);
+        pre_order(tree->right);
     }
 }
-//insert node to the tree
-Tree *insert_node(Tree* tree,int val){
-    Tree *element,*ptr,*tick;
 
-    element = (Tree*)malloc(sizeof(Tree));
-    element ->node = val;
-    element->left = NULL;
-    element->right = NULL;
+Tree *insert(Tree *tree,char* fname,char* lname,int age)
+{
+    Tree* elem,*ptr,*node_ptr;
 
-    //is tree empty...?
-    if(tree == NULL){
-        tree = element;
-        tree->left = tree->right = NULL;
+    elem = (Tree*)malloc(sizeof(Tree));
+    strcpy(elem->node.fname,fname);
+    strcpy(elem->node.lname,lname);
+    elem->node.age = age;
+    elem->left = NULL;
+    elem->right = NULL;
+
+    if(tree == NULL)
+    {
+        tree = elem;
+        tree->left = NULL;
+        tree->right = NULL;
     }
+
     else
     {
-     ptr = tree;
-     tick = NULL;
+        node_ptr = NULL;
+        ptr = tree;
 
-     while(ptr != NULL){
-         tick = ptr;
+        while(ptr != NULL)
+        {
+            node_ptr = ptr;
 
-         if(ptr ->node > val) ptr = ptr->left;
+            ptr = (ptr->node.age > age)? ptr->left:ptr->right;
+        }
+        if(node_ptr->node.age > age) node_ptr->left = elem;
 
-         else ptr = ptr->right;
-     }
-
-     if(tick->node > val) tick->left = element;
-     else tick->right = element;   
+        else node_ptr->right = elem;
     }
+
     return tree;
 }
-
 int main(void)
 {
     unsigned short opt;
-    int val;
-
+    struct Node *n;
+    char fname[30],lname[30];
+    int age;
     do
     {
-        puts(("\n\
-        1: Pre Order traversing \n\
-        2: InOrder traversing \n\
-        3: Post Order traversing \n\
+        puts(("\n \
+        1: Pre-Order Traverse \n\
+        2: In-Order Traverse \n\
+        3: Post-Order Traverse \n\
         4: Insert Node \n\
         "));
 
@@ -88,21 +108,24 @@ int main(void)
         switch(opt)
         {
             case 1:
-            pre_order_traversing(root);
+             pre_order(root);
             break;
 
             case 2:
-            break;
-
             case 3:
             break;
 
             case 4:
-            puts("Enter value");
-            scanf("%d",&val);
-            root = insert_node(root,val);
+            puts("Enter first name");
+            scanf("%s",fname);
+            puts("Enter last name");
+            scanf("%s",lname);
+            puts("Enter age");
+            scanf("%d",&age);
+            root = insert(root,fname,lname,age);
             break;
         }
     } while (opt > 0 && opt < 5);
     
+    return 0;
 }
