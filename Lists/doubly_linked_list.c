@@ -27,9 +27,9 @@ List* insert_beg(List* list,int val){
     }
 
     else{
-        element ->next = list;//new node points to the first node in the list
-        list ->prev = element;//the first node in the list point back to the newly node
-        list = element;//update list to point to the newly node
+        element ->next = list;
+        list ->prev = element;
+        list = element;
     }
     return list;
 }
@@ -46,9 +46,7 @@ List* insert_end(List* list,int val){
         list->next = list->prev = NULL;
     }
     else{
-        ptr = list;//now ptr point to the list(first node in the list)
-        
-        //keep going until you reach the end of the list
+        ptr = list;
         while(ptr->next!= NULL) ptr = ptr->next;
 
         ptr ->next = element;
@@ -59,7 +57,6 @@ List* insert_end(List* list,int val){
     return list;
 }
 
-//has a bug when trying to insert node before the last node for the second time
 //insert node before a given node
 List* insert_bef(List* list,int val,unsigned int pos){
     List *element,*prevP,*nextP;
@@ -67,15 +64,14 @@ List* insert_bef(List* list,int val,unsigned int pos){
     element = (List*)malloc(sizeof(list));
     element ->node = val;
 
-    //list empty..? yes make this the first element
     if(list == NULL){
-        list = element;
-        element->next = list->prev = NULL;
+	    return list;
     }
+
     else
     {
           prevP = list;
-
+	  //insert before first node
         if(prevP ->node == pos){
             element ->next = prevP;
             prevP ->prev = element;
@@ -88,7 +84,7 @@ List* insert_bef(List* list,int val,unsigned int pos){
              prevP = list;
             nextP = prevP->next;
 
-            while(nextP != NULL && nextP->node != pos){
+            while(nextP->node != pos){
                 prevP = nextP;
                 nextP = nextP->next;
             }
@@ -100,7 +96,7 @@ List* insert_bef(List* list,int val,unsigned int pos){
             prevP = element;
 
             //debugin
-            printf(("\
+           /* printf(("\
             prevP[%p][%d]\
             element[%p][%d]\
             nextP[%p][%d]\
@@ -111,12 +107,50 @@ List* insert_bef(List* list,int val,unsigned int pos){
             "),prevP,prevP->node,
             element,element->node,
             nextP,nextP->node,
-            prevP->next,element->next,nextP->prev,element->prev,prevP);
+            prevP->next,element->next,nextP->prev,element->prev,prevP);*/
         }
 
     }
         return list;
 }
+
+/*insert node after a given node*/
+List *insert_aft(List* list,int val,unsigned int pos){
+	List *ptr,*nptr,*prevptr;
+
+	ptr = (List*)malloc(sizeof(List));
+	ptr -> node = val;
+
+	if(list == NULL) return list;
+
+	else{
+		prevptr = list;
+		nptr = prevptr->next;
+
+		while(prevptr -> node != pos){
+			prevptr = nptr;
+			nptr = nptr -> next;
+		}
+
+		//last node
+		if(nptr -> next == NULL){
+			prevptr ->next = ptr;
+			ptr ->prev = prevptr;
+			prevptr = ptr;
+			return list;
+		}
+
+		else{
+			prevptr ->next = ptr;
+			ptr ->prev = prevptr;
+			ptr->next = nptr;
+			nptr ->prev = ptr;
+			prevptr = ptr;
+			return list;
+		}
+	}
+}
+
 //the main function
  int main (void){
      unsigned short opt;
@@ -165,11 +199,11 @@ List* insert_bef(List* list,int val,unsigned int pos){
             break;
 
             case 4:
-            // puts("Enter Insertion point(node to be inserted after)");
-            // scanf("%u",&pos);
-            // puts("Enter value");
-            // scanf("%d",&val);
-            // head = insert_aft(head,val,pos);
+            puts("Enter Insertion point(node to be inserted after)");
+             scanf("%u",&pos);
+             puts("Enter value");
+             scanf("%d",&val);
+             head = insert_aft(head,val,pos);
             break;
 
             case 5:
@@ -192,5 +226,5 @@ List* insert_bef(List* list,int val,unsigned int pos){
             // (find(head,val) == 1)? puts("True"):puts("false");
             break;
         }
-    }while(opt >=0 && opt < 4);
+    }while(opt >=0 && opt < 5);
 }
