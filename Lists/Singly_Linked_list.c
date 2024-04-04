@@ -5,18 +5,18 @@ List* head = NULL;
         OPERATIONS
         ---------
 
-        ->Insert node at the beginning of the list(done)
-        ->Inser node at the end of the list(node)
-        ->Insert node before a given node(done)
-        ->Insert node after the given node(done)
+        ->Insert node at the beginning of the list
+        ->Inser node at the end of the list
+        ->Insert node before a given node
+        ->Insert node after the given node
         ->Delete any node
-        ->Sort list in Ascending order(done)
-        ->Sort list in Descending order(done)
-        ->Size of the list(done)
-        ->find the biggest node in the list(done)
-        ->Find the smallest node in the list(done)
-        ->Find node in the list(done)
-        ->clear list/delete entire list(done)
+        ->Sort list in Ascending order
+        ->Sort list in Descending order
+        ->Size of the list
+        ->find the biggest node in the list
+        ->Find the smallest node in the list
+        ->Find node in the list
+        ->clear list/delete entire list
 */
 //display list nodes
 void display(List* list){
@@ -64,7 +64,7 @@ int smallest_node(List* list)
 
         ptr = list;
 
-        small_node = ptr->node;//assuming the first node in the list is the biggest
+        small_node = ptr->node;
 
         while(ptr != NULL)
         {
@@ -84,11 +84,11 @@ List *insert_beg(List* list,int val){
 
     if(list == NULL){
         list = elem;
-        list->next = NULL;//don't point to any other node
+        list->next = NULL;
     }
     else{
-        elem -> next = list;//new node point to the first node in the list
-        list = elem;//move list to point to the new inserted node
+        elem -> next = list;
+        list = elem;
     }
     return list;
 }
@@ -103,7 +103,7 @@ List* insert_end(List *list,int val){
 
     if(list == NULL){
         list = elem;
-        list->next = NULL;//don't point to any other node
+        list->next = NULL;
     }
     else{
         ptr = list;
@@ -135,10 +135,10 @@ List* insert_bef(List *list,int val,unsigned int pos){
 
         //check if the insertion point is the first node in the list
         if(prevP ->node == pos){
-            element ->next = prevP;//element points to the first node of the list
-            prevP = element;//prevP points to the newly inserted element/node
-            nextP = prevP->next;//nextP points to the second node in the list after insertion
-            list = prevP;//make list point back to the beginning of the list
+            element ->next = prevP;
+            prevP = element;
+            nextP = prevP->next;
+            list = prevP;
         }
         while(nextP!= NULL && nextP ->node != pos){
             prevP = nextP;
@@ -200,28 +200,29 @@ List *clear(List* list){
         while(list != NULL) list = list->next;
 
         tmp = list;
-        free(tmp);//remove node from the heap
+        free(tmp);
     }
     else puts("The list is alread Empty: ");
     return list;
 }
 
-//delete a single given node from the list (bug on deleting first or last node)
+//delete node from the list
 List* delete_node(List* list,int val){
     List *ptr,*temp,*prevP;
     if(list == NULL){
         puts("Empty list,nothing to delete");
-        return NULL;
+        return list;
     }
     else{
         prevP = list;
         ptr = list->next;
 
         //if the node is the first node in the list
-        if(prevP->node == val){
-            temp = prevP;
-            prevP = prevP->next;
-            free(temp);
+        if(list->node == val){
+            temp = list;
+	    list = list->next;
+	    free(temp);
+	    return list;
         }
         else{
             while(ptr->node != val && ptr->next != NULL) 
@@ -234,13 +235,17 @@ List* delete_node(List* list,int val){
                 temp = ptr;
                 prevP ->next = NULL; //prevP now point to the last node
                 free(temp);
+		return list;
             }
+	    else{
             temp = ptr;
             ptr = ptr->next;
             prevP ->next = ptr;
             free(temp);
+
+	    return list;
+	    }
         }
-        return list;
     }
 }
 //size of the list
@@ -270,11 +275,7 @@ bool find(List* list,int val){
     }
     else{
         while(list != NULL && list->next != NULL && list->node != val) list = list->next;
-        //we reach the end of the list without findind the node we are looking fore
-        if(list ->next == NULL && list->node != val) b = false;
-        //the node found
-        else b = true;
-        return b;
+        return (list ->next == NULL && list->node != val)?  false : true;
     }
 
 }
