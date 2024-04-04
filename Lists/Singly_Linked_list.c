@@ -266,12 +266,9 @@ unsigned int size(List* list){
 }
 //find node in the list
 bool find(List* list,int val){
-    List *ptr;
-    bool b;
-
     if(list == NULL){
-        b = false;
-        return b;
+	    puts("Empty list,nothing to find");
+        return false;
     }
     else{
         while(list != NULL && list->next != NULL && list->node != val) list = list->next;
