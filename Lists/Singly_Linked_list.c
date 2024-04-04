@@ -17,6 +17,7 @@ List* head = NULL;
         ->Find the smallest node in the list
         ->Find node in the list
         ->clear list/delete entire list
+	->Replace list node with new node
 */
 //display list nodes
 void display(List* list){
@@ -329,11 +330,30 @@ List* sort_desc(List* list)
         return list;
     }
 }
+
+/*replace node*/
+List *replace(List *list,int node,int new){
+	List *ptr = list;
+	if(list == NULL) return list;
+
+	else{
+		while(ptr -> node != node && ptr -> next != NULL) ptr = ptr -> next;
+		
+		if(ptr -> node == node) {
+			ptr -> node = new;
+			return list;
+		}
+
+		else {
+			puts("Node not found");
+			return list;
+		}
+	}
+}
  int main (void){
      unsigned short opt;
      unsigned int pos;
-    int val;
-    bool b;
+    int val,val2;
 
     do{
         fputs(("\n\
@@ -350,6 +370,7 @@ List* sort_desc(List* list)
         10: Sort Descending Order \n\
         11: Find Largest Node \n\
         12: Find Smallest Node \n\
+	13: Replace node\n\
         "),stdout);
         scanf("%hu",&opt);
 
@@ -422,6 +443,14 @@ List* sort_desc(List* list)
             case 12:
             printf("Smallest Node: %d\n",smallest_node(head));
             break;
+
+	    case 13:
+	    puts("Enter node to be replaced");
+	    scanf("%d",&val);
+	    puts("Enter new value");
+	    scanf("%d",&val2);
+	    head = replace(head,val,val2);
+	    break;
         }
-    }while(opt >=0 && opt < 13);
+    }while(opt >=0 && opt < 14);
 }
