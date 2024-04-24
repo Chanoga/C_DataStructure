@@ -5,7 +5,7 @@
 #include<stdio.h>
 
 static  int TOP = -1;
-#define MAX 5 //maximum number of elements in array
+#define MAX 5 
 
 int stack[MAX];
 
