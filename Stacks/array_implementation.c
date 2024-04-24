@@ -4,7 +4,7 @@
  */
 #include<stdio.h>
 
-static unsigned int TOP = -1;
+static  int TOP = -1;
 #define MAX 5 //maximum number of elements in array
 
 int stack[MAX];
@@ -59,16 +59,31 @@ void array_implementation(void)
         puts("\n1: Display\n2: PUSH\n3: POP\n4: PEEK\n");
         scanf("%d",&opt);
 
-        if(opt == 1) display();
+	switch(opt){
 
-        else if(opt == 2){
-            puts("Enter value");
-            scanf("%d",&val);
-            push(val);
-        }
-        else if(opt == 3) pop();
+		case 1:
+			display();
+			break;
 
-        else if (opt == 4) printf("%d\n",peek());
+		case 2:
+			puts("Enter value");
+			scanf("%d",&val);
+
+			push(val);
+			break;
+
+		case 3:
+			val = pop();
+			printf("%d\n",val);
+			break;
+
+		case 4:
+			val = peek();
+			printf("%d\n",val);
+			break;
+
+	}
+
 
     }while(opt > 0 && opt < 5);
 }

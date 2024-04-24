@@ -60,14 +60,15 @@ int pop2()
 
 int peek2(void)
 {
-    int val = (head == NULL) ? 0 : head->node;
-    return val;
+	int val;
+    return val = (head == NULL) ? 0 : head->node;
 }
 void linked_list_implementation(void){
 
     unsigned short opt;
     int val;
 
+    do{
     puts(("\n\
     1: Push\n\
     2: Pop \n\
@@ -76,21 +77,24 @@ void linked_list_implementation(void){
     "));
     scanf("%hu",&opt);
 
-    if(opt == 1){
+    switch(opt){
+
+	    case 1:
         puts("Enter value");
         scanf("%d",&val);
        head = push2(head,val);
-    }
-    if (opt == 2)
-    {
+       break;
+	    case 2:
         printf("%d ", pop2());
-    }
-    else if(opt == 3){
+	break;
+	    case 3:
        display2(head);
+       break;
+
+	    case 4:
+    printf("%d\n",peek2());
+    break;
     }
 
-    else if(opt == 4)
-    printf("%d\n",peek2());
-
-    
+    }while(opt > 0 && opt < 5);
 }
