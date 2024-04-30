@@ -1,15 +1,22 @@
-The Intesion here is to cover all the Major Data structure
-in the C programming language.
+			DATASTRUCTURES
 
-Lists:
-->singly linked
-->doubly linked
-->circular singly linked
-->doubly circular linked
-etc
+The Main purpose is to implement all datastructures in
+a way that is simple to understand. I choose the C Language
+because it has no any internal implementation of these topics
+in order to avoid abstraction by using a builing libraries(list) 
+or language specific features such as classes in (OOP) languages.
 
-Graphs
+HOW TO USE:
+----------
 
-Trees
+1st: 
+install gcc (for window users minGW),
+most of Linux come with gcc installed by default.
 
-etc.
+2: download or clone this report (https://github.com/Chanoga/C_DataStructure.git)
+
+3: cd (change directory) to the top you want to explore
+
+4: compile your program e.g gcc -std=c11 binary_search.c -o binary_search
+
+5: run your program ./binary_search
